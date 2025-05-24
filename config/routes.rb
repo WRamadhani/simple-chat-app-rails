@@ -16,5 +16,7 @@ Rails.application.routes.draw do
     # resources :messages
   end
 
+  get '*path', to: 'static#index', constraints: ->(req) { !req.xhr? && req.format.html? }
+
   mount ActionCable.server => '/cable'
 end

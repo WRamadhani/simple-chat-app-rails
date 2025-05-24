@@ -8,7 +8,9 @@ export function createChatConsumer() {
     return null
   }
 
-  return createConsumer('ws://localhost:3000/cable', {
+  const cableUrl = `${import.meta.env.VITE_CABLE_URL} || ws://localhost:3000/cable`;
+
+  return createConsumer(cableUrl, {
     Authorization: `Bearer ${token}`,
   })
 }
