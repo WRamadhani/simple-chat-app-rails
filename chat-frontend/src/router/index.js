@@ -23,9 +23,9 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: () => import('../views/LoginView.vue'),
-    }
+    },
     {
-      path: '/chatroom',
+      path: '/chatroom/:id',
       name: 'chatroom',
       component: () => import('../views/ChatroomView.vue'),
       meta: {

@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '../api';
 import { createChatConsumer } from '../cable';
 
-import Message from '../components/Message.vue';
+import ChatMessage from '../components/ChatMessage.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -39,7 +39,7 @@ const fetchChatroomDetails = async () => {
     chatroom.value = response.data.chatroom;
     messages.value = response.data.messages;
     await nextTick();
-    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+    scrollToBottom();
   } catch (e) {
     console.log('Error fetching chatroom details', e);
     error.value = e;
@@ -57,20 +57,18 @@ const subscribeToChatroom = () => {
   }
 
   chatChannel = consumer.subscriptions.create(
-    { channel: 'ChatChannel', chatroom_id: route.params.id },
+    { channel: 'ChatChannel', id: route.params.id },
     {
       received: (data) => {
         console.log('Received real-time message: ', data);
         messages.value.push(data.message);
-        nextTick(() => {
-          messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
-        });
+        nextTick(() => scrollToBottom());
       },
       initialized: () => {
         console.log('Chat channel initialized');
       },
       connected: () => {
-        console.log('Chat channel connected');
+        console.log('Chat channel connected', consumer);
       },
       disconnected: () => {
         console.log('Chat channel disconnected');
@@ -85,16 +83,24 @@ const subscribeToChatroom = () => {
 }
 
 const sendMessage = () => {
+  console.log('clicked');
+  console.log(newMessageContent.value);
   if (newMessageContent.value.trim() === '') return;
 
   if (chatChannel) {
-    chatChannel.perform('speak', { content: newMessageContent.value });
+    chatChannel.perform('speak', { message: newMessageContent.value });
     newMessageContent.value = '';
   } else {
     console.error('Chat channel not connected');
     alert('Failed to send message');
   }
 }
+
+const scrollToBottom = () => {
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+  }
+};
 
 onMounted(async () => {
   await fetchCurrentUser();
@@ -127,7 +133,7 @@ onUnmounted(() => {
       {{ error }}
     </div>
     <div v-else class="flex-grow overflow-y-auto p-4 space-y-3" ref="messagesContainer">
-      <Message v-for="message in messages" :key="message.id" :message="message"
+      <ChatMessage v-for="message in messages" :key="message.id" :message="message"
         :isCurrentUser="currentUser && message.user.id === currentUser.id" />
       <div v-if="messages.length === 0" class="text-center text-gray-500 py-10">
         No messages yet. Be the first to say hi!

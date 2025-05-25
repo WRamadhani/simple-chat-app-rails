@@ -5,6 +5,7 @@ class ChatroomsController < ApplicationController
     end
 
     def show
+        puts "Params ID: #{params[:id]}"
         begin
             @chatroom = Chatroom.find(params[:id])
             @messages = @chatroom.messages.chronological
