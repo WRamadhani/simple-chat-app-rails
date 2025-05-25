@@ -36,7 +36,7 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-          
+
       - name: Set execute permissions for Rubocop
         run: chmod +x bin/rubocop
 
@@ -74,6 +74,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          
+      - name: Set execute permissions for Rails
+        run: chmod +x bin/rails
 
       - name: Run tests
         env:
