@@ -8,7 +8,9 @@ fi
 
 # If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
+  echo "--- docker-entrypoint: Detected Rails server command. Attempting db:prepare..."
+  ./bin/rails db:prepare || { echo "--- ERROR: db:prepare failed! Check database connection and migrations. Exiting." >&2; exit 1; }
+  echo "--- docker-entrypoint: db:prepare completed successfully."
 fi
 
 exec "${@}"
