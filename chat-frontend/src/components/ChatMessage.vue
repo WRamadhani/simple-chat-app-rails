@@ -29,16 +29,17 @@ const messageClass = computed(() => {
     ? 'bg-blue-500 text-white self-end rounded-br-none'
     : 'bg-gray-200 text-gray-800 self-start rounded-bl-none';
 })
+console.log(props.isCurrentUser);
 </script>
 
 <template>
-  <div class="flex flex-col mb-2" :class="{ 'items-end': isCurrentUser, 'items-start': !isCurrentUser }">
+  <div class="flex flex-col pb-4" :class="{ 'items-end': isCurrentUser, 'items-start': !isCurrentUser }">
     <div class="max-w-[70%] p-3 rounded-xl shadow-sm break-words" :class="messageClass">
-      <div class="flex items-baseline space-x-2">
+      <div class="flex items-baseline gap-2" :class="{ 'flex-row-reverse': isCurrentUser }">
         <strong class="text-sm font-semibold">{{ message.user.username }}</strong>
         <span class="text-xs opacity-75">{{ formattedDate }}</span>
       </div>
-      <p class="text-base mt-1">{{ message.content }}</p>
+      <p class="text-base pt-2">{{ message.content }}</p>
     </div>
   </div>
 </template>

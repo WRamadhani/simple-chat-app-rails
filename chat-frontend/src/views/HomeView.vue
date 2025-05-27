@@ -51,7 +51,7 @@ onMounted(fetchChatrooms);
 </script>
 
 <template>
-  <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+  <div class="bg-white p-8 rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold text-center mb-6 text-blue-600">Chatrooms</h1>
 
     <div v-if="loading" class="text-center text-gray-500">Loading chatrooms...</div>
@@ -71,7 +71,7 @@ onMounted(fetchChatrooms);
 
       <div class="mt-8 pt-6 border-t border-gray-200">
         <h2 class="text-2xl font-bold mb-4 text-blue-600">Create New Chatroom</h2>
-        <form @submit.prevent="createChatroom" class="flex space-x-2">
+        <form @submit.prevent="createChatroom" class="flex gap-4">
           <input type="text" v-model="newChatroomName" placeholder="Enter new chatroom name" required
             class="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           <button type="submit"

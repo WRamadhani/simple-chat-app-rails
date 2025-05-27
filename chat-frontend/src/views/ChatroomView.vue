@@ -121,9 +121,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg flex flex-col h-80vh">
+  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg flex flex-col h-[80vh]">
     <div class="p-4 border-b border-gray-200 bg-blue-600 text-white rounded-t-lg">
       <h1 class="text-2xl font-bold">{{ chatroom ? chatroom.name : 'Loading Chat...' }}</h1>
+      <p>{{ currentUser ? currentUser.username : 'Loading User...' }}</p>
     </div>
 
     <div v-if="loading" class="flex-grow flex items-center justify-center text-gray-500">
@@ -132,19 +133,19 @@ onUnmounted(() => {
     <div v-else-if="error" class="flex-grow flex items-center justify-center text-red-600 p-4">
       {{ error }}
     </div>
-    <div v-else class="flex-grow overflow-y-auto p-4 space-y-3" ref="messagesContainer">
+    <div v-else class="p-4 overflow-y-auto flex-grow" ref="messagesContainer">
       <ChatMessage v-for="message in messages" :key="message.id" :message="message"
-        :isCurrentUser="currentUser && message.user.id === currentUser.id" />
+        :isCurrentUser="currentUser.user.id === message.user.id" />
       <div v-if="messages.length === 0" class="text-center text-gray-500 py-10">
         No messages yet. Be the first to say hi!
       </div>
     </div>
 
-    <form @submit.prevent="sendMessage" class="p-4 border-t border-gray-200 flex space-x-2">
+    <form @submit.prevent="sendMessage" class="p-4 border-t border-gray-200 flex gap-4">
       <input type="text" v-model="newMessageContent" placeholder="Type your message..." required
         class="flex-grow px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
       <button type="submit"
-        class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-5 rounded-full font-semibold transition-colors">
+        class="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white py-2 px-5 ml-2 rounded-full font-semibold transition-colors">
         Send
       </button>
     </form>

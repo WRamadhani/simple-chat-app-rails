@@ -1,4 +1,4 @@
-@import './base.css';
+/* @import './base.css'; */
 /* chat_frontend/src/assets/main.css */
 @import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -31,7 +31,7 @@ body {
 }
 
 /* Basic button styles */
-button,
+/* button,
 .router-link-active {
   cursor: pointer;
   border: none;
@@ -132,4 +132,4 @@ button:hover {
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
-}
+} */

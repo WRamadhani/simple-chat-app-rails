@@ -1,16 +1,14 @@
 <script setup>
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { computed } from 'vue';
+import { useTokenStore } from './stores/tokenStore';
 // import HelloWorld from './components/HelloWorld.vue'
 
 const router = useRouter();
 
-const isLoggedIn = computed(() => {
-  return !!localStorage.getItem('token');
-});
+const tokenStore = useTokenStore();
 
 const logout = () => {
-  localStorage.removeItem('token');
+  tokenStore.removeToken();
   router.push({ name: 'login' });
 }
 // const currentRoute = computed(() => {
@@ -23,7 +21,7 @@ const logout = () => {
     <nav class="container mx-auto flex justify-between items-center">
       <RouterLink to="/" class="text-xl font-bold">RailsVueChat</RouterLink>
       <div class="flex space-x-4">
-        <template v-if="isLoggedIn">
+        <template v-if="tokenStore.token">
           <button @click="logout" class="py-2 px-4 bg-red-500 rounded-md hover:bg-red-600 transition-colors">
             Logout
           </button>

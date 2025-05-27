@@ -1,10 +1,13 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useTokenStore } from '@/stores/tokenStore';
 import api from '../api';
 
 const router = useRouter();
 const route = useRoute();
+
+const tokenStore = useTokenStore();
 
 const isLogin = computed(() => {
   return route.name === 'login';
@@ -54,7 +57,8 @@ const handleSubmit = async () => {
       successMessage.value = response.data.message;
       // router.push({ name: 'login' });
     }
-    localStorage.setItem('token', response.data.token);
+    // localStorage.setItem('token', response.data.token);
+    tokenStore.setToken(response.data.token);
     router.push({ name: 'home' });
   } catch (error) {
     errors.value = error.response.data.errors;
@@ -71,13 +75,13 @@ const handleSubmit = async () => {
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>
         <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username:</label>
-        <input type="text" id="username" v-model="username" required
+        <input type="text" id="username" v-model="username" required placeholder="testuserone"
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
       <div>
         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password:</label>
-        <input type="password" id="password" v-model="password" required
+        <input type="password" id="password" v-model="password" required placeholder="123"
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
@@ -88,7 +92,7 @@ const handleSubmit = async () => {
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
-      <button type="submit" class="w-full py-3 px-6 rounded-md text-white font-semibold transition-colors duration-200"
+      <button type="submit" class="w-full mt-4 py-3 px-6 rounded-md text-white font-semibold transition-colors duration-200"
         :class="isLogin ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'">
         {{ isLogin ? 'Login' : 'Signup' }}
       </button>
