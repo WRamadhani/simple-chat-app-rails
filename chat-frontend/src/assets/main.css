@@ -1,7 +1,8 @@
 @import './base.css';
 /* chat_frontend/src/assets/main.css */
+@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-/* 
+/*
 #app {
   max-width: 1280px;
   margin: 0 auto;
